@@ -15,6 +15,11 @@ class CreateReportsTable extends Migration
     {
         Schema::create('reports', function (Blueprint $table) {
             $table->id();
+            $table->uuid('customer_id');
+            $table->date('tanggal');
+            $table->string('jenis_kendaraan');
+            $table->integer('jumlah_kendaraan')->default(0);
+            $table->unsignedBigInteger('pendapatan')->default(0);
             $table->timestamps();
         });
     }

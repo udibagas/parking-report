@@ -2,19 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CustomerRequest;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Customer::class);
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $data = Customer::when($request->keyword, function ($q) use ($request) {
+            $q->where('nama', 'LIKE', "%{$request->keyword}%");
+        })->orderBy('nama', 'ASC');
+
+        return $request->paginated ? $data->paginate($request->pageSize) : $data->get();
     }
 
     /**
@@ -23,9 +33,10 @@ class CustomerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CustomerRequest $request)
     {
-        //
+        Customer::create($request->all());
+        return ['message' => 'Data telah disimpan'];
     }
 
     /**
@@ -36,7 +47,7 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer)
     {
-        //
+        return $customer;
     }
 
     /**
@@ -46,9 +57,10 @@ class CustomerController extends Controller
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Customer $customer)
+    public function update(CustomerRequest $request, Customer $customer)
     {
-        //
+        $customer->update($request->all());
+        return ['message' => 'Data telah disimpan'];
     }
 
     /**
@@ -59,6 +71,7 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
-        //
+        $customer->delete();
+        return ['message' => 'Data telah dihapus'];
     }
 }

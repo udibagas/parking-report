@@ -22,7 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('sync', function (Request $request) {
     $request->validate([
         'data' => 'required|json',
-        'id_pelanggan' => 'required|exists:customers,id'
+        'customer_id' => 'required|exists:customers,id'
     ]);
 
     foreach ($request->data as $data) {
@@ -30,9 +30,14 @@ Route::post('sync', function (Request $request) {
             continue;
         }
 
+        // simpan data untuk customer terkait
         Report::updateOrCreate(
-            ['tanggal' => $data['tanggal'], 'jenis_kendaraan' => $data['jenis_kendaraan']],
-            $data
+            [
+                'tanggal' => $data['tanggal'],
+                'jenis_kendaraan' => $data['jenis_kendaraan'],
+                'customer_id' => $request->customer_id
+            ],
+            array_merge($data, ['customer_id' => $request->customer_id])
         );
     }
 
