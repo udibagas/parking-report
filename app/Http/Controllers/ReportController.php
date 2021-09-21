@@ -14,7 +14,7 @@ class ReportController extends Controller
      */
     public function index()
     {
-        //
+        // TODO: tampilkan report harian, bulanan, keseluruhan, table by bulan, table by hari
     }
 
     /**
@@ -25,40 +25,27 @@ class ReportController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $request->validate([
+            'data' => 'required|json',
+            'customer_id' => 'required|exists:customers,id'
+        ]);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Report  $report
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Report $report)
-    {
-        //
-    }
+        foreach ($request->data as $data) {
+            if ($data['tanggal'] == null) {
+                continue;
+            }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Report  $report
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Report $report)
-    {
-        //
-    }
+            // simpan data untuk customer terkait
+            Report::updateOrCreate(
+                [
+                    'tanggal' => $data['tanggal'],
+                    'jenis_kendaraan' => $data['jenis_kendaraan'],
+                    'customer_id' => $request->customer_id
+                ],
+                array_merge($data, ['customer_id' => $request->customer_id])
+            );
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Report  $report
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Report $report)
-    {
-        //
+        return 'Data telah disimpan';
     }
 }
