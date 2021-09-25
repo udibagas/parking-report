@@ -18,6 +18,7 @@ class CreateCustomersTable extends Migration
             $table->uuid('id')->primary();
             $table->string('nama');
             $table->text('alamat');
+            $table->boolean('active')->default(false);
             $table->softDeletes();
             $table->timestamps();
         });
