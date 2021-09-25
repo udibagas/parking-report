@@ -27,7 +27,7 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['@/plugins/decimal'],
+  plugins: ['@/plugins/notifier.js', '@/plugins/decimal'],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -55,9 +55,9 @@ export default {
   axios: {
     credentials: true,
     // development
-    baseURL: process.env.API_URL || 'http://localhost:8000',
+    // baseURL: process.env.API_URL || 'http://localhost:8000',
     // production
-    // baseURL: process.env.API_URL || '',
+    baseURL: process.env.API_URL || '',
   },
 
   auth: {

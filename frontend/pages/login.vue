@@ -4,7 +4,7 @@
 			<v-card flat>
 				<v-card-text>
 					<div class="my-6 text-center">
-						<img src="/logo.jpeg" alt="" />
+						<img src="/logo.jpeg" alt="" style="width: 80px" class="mb-5" />
 						<div class="text-h5 text-center mb-6">PARKING REPORT</div>
 					</div>
 

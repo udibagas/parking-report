@@ -24,7 +24,7 @@ class CustomerController extends Controller
             $q->where('nama', 'LIKE', "%{$request->keyword}%");
         })->orderBy('nama', 'ASC');
 
-        return $request->paginated ? $data->paginate($request->pageSize) : $data->get();
+        return $request->paginated ? $data->paginate($request->itemsPerPage) : $data->get();
     }
 
     /**

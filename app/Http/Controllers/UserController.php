@@ -20,11 +20,11 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $data = User::when($request->keyword, function ($q) use ($request) {
-            $q->where('nama', 'LIKE', "%{$request->keyword}%");
-        })->orderBy('nama', 'ASC');
+        $data = User::with(['customer'])->when($request->keyword, function ($q) use ($request) {
+            $q->where('name', 'LIKE', "%{$request->keyword}%");
+        })->orderBy('name', 'ASC');
 
-        return $request->paginated ? $data->paginate($request->pageSize) : $data->get();
+        return $request->paginated ? $data->paginate($request->itemsPerPage) : $data->get();
     }
 
     /**
