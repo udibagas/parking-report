@@ -40,6 +40,7 @@ class ReportController extends Controller
                 [
                     'tanggal' => $data['tanggal'],
                     'jenis_kendaraan' => $data['jenis_kendaraan'],
+                    'group' => $data['group'],
                     'customer_id' => $request->customer_id
                 ],
                 array_merge($data, ['customer_id' => $request->customer_id])
