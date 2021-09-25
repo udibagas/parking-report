@@ -1,10 +1,12 @@
 <?php
 
-use App\Http\Controllers\ReportController;
-use App\Http\Controllers\UserController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\{
+    AuthController,
+    ReportController,
+    UserController
+};
+
 use Illuminate\Support\Facades\Route;
-use App\Models\Report;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,9 +19,16 @@ use App\Models\Report;
 |
 */
 
+Route::post('login', [AuthController::class, 'login']);
 Route::post('report', [ReportController::class, 'store']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
+    // auth related
+    Route::get('me', [AuthController::class, 'me']);
+    Route::post('logout', [AuthController::class, 'logout']);
+
     Route::get('report', [ReportController::class, 'index']);
+    Route::post('report', [ReportController::class, 'store']);
+
     Route::apiResource('user', UserController::class, ['except' => ['show']]);
 });
