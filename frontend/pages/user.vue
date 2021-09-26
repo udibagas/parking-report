@@ -8,7 +8,7 @@
 			v-for="user in items"
 			:key="user.id"
 			link
-			:class="['mb-1  rounded', user.active ? 'white' : 'grey lighten-2']"
+			:class="['mb-1  rounded', user.active ? 'white' : 'red lighten-4']"
 			@click="
 				form = { ...user }
 				showForm = true
@@ -41,7 +41,6 @@
 			color="indigo"
 			fab
 			dark
-			small
 			fixed
 			bottom
 			right
@@ -53,90 +52,89 @@
 			<v-icon>mdi-plus</v-icon>
 		</v-btn>
 
-		<v-bottom-sheet v-model="showForm">
-			<v-sheet>
-				<div class="px-6 py-3 d-flex">
-					<div class="text-h6">{{ form.id ? 'Edit' : 'Tambah' }} User</div>
+		<v-dialog v-model="showForm" max-width="500">
+			<v-card>
+				<v-card-title class="mb-4">
+					{{ form.id ? 'Edit' : 'Tambah' }} User
 					<v-spacer></v-spacer>
 					<v-btn icon @click="showForm = false" small>
 						<v-icon>mdi-close</v-icon>
 					</v-btn>
-				</div>
-				<v-divider></v-divider>
-				<v-form
-					ref="form"
-					lazy-validation
-					style="max-width: 400px; margin: 0 auto"
-					class="pa-6"
-				>
-					<v-text-field
-						outlined
-						dense
-						v-model="form.name"
-						:rules="rules.name"
-						label="Nama"
-					></v-text-field>
+				</v-card-title>
 
-					<v-text-field
-						outlined
-						dense
-						v-model="form.email"
-						:rules="rules.email"
-						label="Email"
-					></v-text-field>
+				<v-card-text>
+					<v-form ref="form" lazy-validation>
+						<v-text-field
+							outlined
+							dense
+							v-model="form.name"
+							:rules="rules.name"
+							label="Nama"
+						></v-text-field>
 
-					<v-select
-						outlined
-						dense
-						v-model="form.role"
-						:rules="rules.role"
-						label="Role"
-						:items="[
-							{ text: 'PELANGGAN', value: 0 },
-							{ text: 'ADMIN', value: 1 },
-						]"
-					></v-select>
+						<v-text-field
+							outlined
+							dense
+							v-model="form.email"
+							:rules="rules.email"
+							label="Email"
+						></v-text-field>
 
-					<v-autocomplete
-						outlined
-						v-if="form.role == 0"
-						dense
-						v-model="form.customer_id"
-						:rules="rules.customer_id"
-						label="Pelanggan"
-						:items="customerList"
-						item-text="nama"
-						item-value="id"
-					></v-autocomplete>
+						<v-select
+							outlined
+							dense
+							v-model="form.role"
+							:rules="rules.role"
+							label="Role"
+							:items="[
+								{ text: 'PELANGGAN', value: 0 },
+								{ text: 'ADMIN', value: 1 },
+							]"
+						></v-select>
 
-					<v-text-field
-						outlined
-						dense
-						v-model="form.password"
-						:rules="rules.password"
-						type="password"
-						label="Password"
-					></v-text-field>
+						<v-autocomplete
+							outlined
+							v-if="form.role == 0"
+							dense
+							v-model="form.customer_id"
+							:rules="rules.customer_id"
+							label="Pelanggan"
+							:items="customerList"
+							item-text="nama"
+							item-value="id"
+						></v-autocomplete>
 
-					<v-text-field
-						outlined
-						dense
-						v-model="form.password_confirmation"
-						type="password"
-						label="Konfirmasi Password"
-					></v-text-field>
+						<v-text-field
+							outlined
+							dense
+							v-model="form.password"
+							:rules="rules.password"
+							type="password"
+							label="Password"
+						></v-text-field>
 
-					<v-switch
-						v-model="form.active"
-						:label="form.active ? 'AKTIF' : 'NONAKTIF'"
-					></v-switch>
+						<v-text-field
+							outlined
+							dense
+							v-model="form.password_confirmation"
+							type="password"
+							label="Konfirmasi Password"
+						></v-text-field>
 
-					<v-btn color="primary" block elevation="0" large @click="saveData">
-						SIMPAN
-					</v-btn>
-				</v-form>
-			</v-sheet>
-		</v-bottom-sheet>
+						<v-switch
+							v-model="form.active"
+							:label="form.active ? 'AKTIF' : 'NONAKTIF'"
+						></v-switch>
+					</v-form>
+				</v-card-text>
+
+				<v-card-actions>
+					<v-spacer></v-spacer>
+					<v-btn text @click="showForm = false"> BATAL </v-btn>
+					<v-btn color="primary" text @click="saveData"> SIMPAN </v-btn>
+				</v-card-actions>
+			</v-card>
+		</v-dialog>
 	</div>
 </template>
 

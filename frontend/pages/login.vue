@@ -1,49 +1,58 @@
 <template>
-	<v-row justify="center" align="center">
-		<v-col cols="12" sm="12" md="4">
-			<v-card flat>
-				<v-card-text>
-					<div class="my-6 text-center">
-						<img src="/logo.jpeg" alt="" style="width: 80px" class="mb-5" />
-						<div class="text-h5 text-center mb-6">PARKING REPORT</div>
-					</div>
+	<div>
+		<div class="text-h5 text-center mt-15 mb-6 white--text">PARKING REPORT</div>
+		<v-card style="width: 300px; margin: 80px auto 0" elevation="3">
+			<v-card-text>
+				<div class="text-center">
+					<v-avatar class="mt-n12 mb-6" color="indigo darken-1" size="75">
+						<v-icon size="50" dark>mdi-account</v-icon>
+						<!-- <img src="/logo.jpeg" alt="" style="width: 70px; height: 70px" /> -->
+					</v-avatar>
+				</div>
+				<v-form lazy-validation ref="form" class="py-6">
+					<v-text-field
+						label="User/Email"
+						placeholder="Masukkan nama/email Anda"
+						outlined
+						dense
+						v-model="form.email"
+						:rules="rules.email"
+						hide-details
+						class="mb-6"
+						prepend-inner-icon="mdi-account-circle-outline"
+					></v-text-field>
 
-					<v-form lazy-validation ref="form">
-						<v-text-field
-							label="User/Email"
-							placeholder="Masukkan nama/email Anda"
-							outlined
-							dense
-							v-model="form.email"
-							:rules="rules.email"
-							hide-details
-							class="mb-6"
-						></v-text-field>
+					<v-text-field
+						label="Password"
+						type="password"
+						placeholder="Password"
+						outlined
+						dense
+						v-model="form.password"
+						:rules="rules.password"
+						hide-details
+						class="mb-6"
+						prepend-inner-icon="mdi-lock-outline"
+					></v-text-field>
+				</v-form>
+			</v-card-text>
+		</v-card>
 
-						<v-text-field
-							label="Password"
-							type="password"
-							placeholder="Password"
-							outlined
-							dense
-							v-model="form.password"
-							:rules="rules.password"
-							hide-details
-							class="mb-6"
-						></v-text-field>
+		<div class="text-center d-block mt-n4">
+			<v-btn
+				style="width: 120px"
+				color="indigo darken-1"
+				dark
+				@click.stop="login"
+			>
+				LOGIN
+			</v-btn>
+		</div>
 
-						<v-btn block color="primary" elevation="0" @click.stop="login">
-							LOGIN
-						</v-btn>
-
-						<div class="text-center my-6">
-							MitraTeknik &copy; {{ new Date().getFullYear() }}
-						</div>
-					</v-form>
-				</v-card-text>
-			</v-card>
-		</v-col>
-	</v-row>
+		<div class="text-center my-6 white--text">
+			MitraTeknik &copy; {{ new Date().getFullYear() }}
+		</div>
+	</div>
 </template>
 
 <script>
@@ -67,6 +76,11 @@ export default {
 						this.rules = e.response.data.errors
 						this.$refs.form.validate()
 					}
+
+					this.$notifier.showMessage({
+						content: e.response.data.message,
+						color: 'error',
+					})
 				})
 		},
 	},

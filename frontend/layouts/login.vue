@@ -1,8 +1,9 @@
 <template>
 	<v-app>
-		<v-main>
+		<v-main class="purple">
 			<v-container>
 				<Nuxt />
+				<Snackbar></Snackbar>
 			</v-container>
 		</v-main>
 	</v-app>

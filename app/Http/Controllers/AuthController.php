@@ -37,7 +37,7 @@ class AuthController extends Controller
             ]);
         }
 
-        return response(['message' => 'Mohon periksa kembali password Anda.']);
+        return response(['message' => 'Mohon periksa kembali password Anda.'], 401);
     }
 
 

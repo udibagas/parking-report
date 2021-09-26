@@ -19,6 +19,7 @@
 			</v-list-item-avatar>
 			<v-list-item-content>
 				<v-list-item-title v-text="customer.nama"></v-list-item-title>
+				<v-list-item-subtitle v-text="customer.alamat"></v-list-item-subtitle>
 			</v-list-item-content>
 			<v-list-item-action>
 				<v-btn icon @click.stop="confirmDelete(customer)" small>
@@ -37,7 +38,6 @@
 			color="indigo"
 			fab
 			dark
-			small
 			fixed
 			bottom
 			right
@@ -49,50 +49,57 @@
 			<v-icon>mdi-plus</v-icon>
 		</v-btn>
 
-		<v-bottom-sheet v-model="showForm">
-			<v-sheet>
-				<div class="px-6 py-3 d-flex">
-					<div class="text-h6">{{ form.id ? 'Edit' : 'Tambah' }} Pelanggan</div>
+		<v-dialog v-model="showForm">
+			<v-card>
+				<v-card-title class="mb-4">
+					{{ form.id ? 'Edit' : 'Tambah' }} Pelanggan
 					<v-spacer></v-spacer>
 					<v-btn icon @click="showForm = false" small>
 						<v-icon>mdi-close</v-icon>
 					</v-btn>
-				</div>
-				<v-divider></v-divider>
-				<v-form
-					ref="form"
-					lazy-validation
-					style="max-width: 400px; margin: 0 auto"
-					class="pa-6"
-				>
-					<v-text-field
-						outlined
-						dense
-						v-model="form.nama"
-						:rules="rules.nama"
-						label="Nama"
-					></v-text-field>
+				</v-card-title>
 
-					<v-textarea
-						outlined
-						dense
-						rows="3"
-						v-model="form.alamat"
-						:rules="rules.alamat"
-						label="Alamat"
-					></v-textarea>
+				<v-card-text>
+					<v-form ref="form" lazy-validation>
+						<v-text-field
+							outlined
+							dense
+							v-model="form.id"
+							label="ID"
+							v-if="form.id"
+						></v-text-field>
 
-					<v-switch
-						v-model="form.active"
-						:label="form.active ? 'AKTIF' : 'NONAKTIF'"
-					></v-switch>
+						<v-text-field
+							outlined
+							dense
+							v-model="form.nama"
+							:rules="rules.nama"
+							label="Nama"
+						></v-text-field>
 
-					<v-btn color="primary" block elevation="0" large @click="saveData">
-						SIMPAN
-					</v-btn>
-				</v-form>
-			</v-sheet>
-		</v-bottom-sheet>
+						<v-textarea
+							outlined
+							dense
+							rows="3"
+							v-model="form.alamat"
+							:rules="rules.alamat"
+							label="Alamat"
+						></v-textarea>
+
+						<v-switch
+							v-model="form.active"
+							:label="form.active ? 'AKTIF' : 'NONAKTIF'"
+						></v-switch>
+					</v-form>
+				</v-card-text>
+
+				<v-card-actions>
+					<v-spacer></v-spacer>
+					<v-btn text @click="showForm = false"> BATAL </v-btn>
+					<v-btn color="primary" text @click="saveData"> SIMPAN </v-btn>
+				</v-card-actions>
+			</v-card>
+		</v-dialog>
 	</div>
 </template>
 
