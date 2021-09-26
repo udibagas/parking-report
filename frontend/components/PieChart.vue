@@ -1,5 +1,5 @@
 <template>
-	<v-chart class="chart" :option="chartOption"></v-chart>
+	<v-chart class="chart py-6" :option="chartOption"></v-chart>
 </template>
 
 <script>
@@ -43,6 +43,7 @@ export default {
 			// data: [],
 			chartOption: {
 				title: {
+					show: true,
 					text: this.title,
 					left: 'center',
 					subtext: this.subtext,
@@ -112,7 +113,5 @@ export default {
 <style scoped>
 .chart {
 	height: 300px;
-	min-width: 500px;
-	max-width: 100%;
 }
 </style>

@@ -70,9 +70,7 @@ export default {
 
 	computed: {
 		menus() {
-			return this.$auth.user.role == 0
-				? this.items.filter((i) => !i.admin)
-				: this.items
+			return this.items.filter((i) => i.role.includes(this.$auth.user.role))
 		},
 	},
 
@@ -84,25 +82,31 @@ export default {
 					icon: 'mdi-view-dashboard',
 					title: 'Dashboard',
 					to: '/',
-					admin: false,
+					role: [0, 1],
 				},
 				{
 					icon: 'mdi-card-account-details-outline',
 					title: 'My Account',
 					to: '/my-account',
-					admin: false,
+					role: [0, 1],
+				},
+				{
+					icon: 'mdi-format-list-checkbox',
+					title: 'Tarif',
+					to: '/tarif',
+					role: [0],
 				},
 				{
 					icon: 'mdi-badge-account-horizontal-outline',
 					title: 'Customer',
 					to: '/customer',
-					admin: true,
+					role: [1],
 				},
 				{
 					icon: 'mdi-account-group-outline',
 					title: 'User',
 					to: '/user',
-					admin: true,
+					role: [1],
 				},
 			],
 			title: 'Parking Report',

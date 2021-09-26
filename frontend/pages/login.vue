@@ -1,11 +1,15 @@
 <template>
 	<div>
-		<div class="text-h5 text-center mt-15 mb-6 white--text">PARKING REPORT</div>
-		<v-card style="width: 300px; margin: 80px auto 0" elevation="3">
+		<div class="text-h5 text-center mt-10 white--text">PARKING REPORT</div>
+		<v-card
+			style="width: 320px; margin: 80px auto 0"
+			elevation="5"
+			rounded="xl"
+		>
 			<v-card-text>
 				<div class="text-center">
-					<v-avatar class="mt-n12 mb-6" color="indigo darken-1" size="75">
-						<v-icon size="50" dark>mdi-account</v-icon>
+					<v-avatar class="mt-n12 mb-4" color="indigo darken-5" size="75">
+						<v-icon size="80" dark>mdi-account-circle</v-icon>
 						<!-- <img src="/logo.jpeg" alt="" style="width: 70px; height: 70px" /> -->
 					</v-avatar>
 				</div>
@@ -13,11 +17,10 @@
 					<v-text-field
 						label="User/Email"
 						placeholder="Masukkan nama/email Anda"
-						outlined
-						dense
 						v-model="form.email"
 						:rules="rules.email"
 						hide-details
+						outlined
 						class="mb-6"
 						prepend-inner-icon="mdi-account-circle-outline"
 					></v-text-field>
@@ -27,7 +30,6 @@
 						type="password"
 						placeholder="Password"
 						outlined
-						dense
 						v-model="form.password"
 						:rules="rules.password"
 						hide-details
@@ -38,12 +40,15 @@
 			</v-card-text>
 		</v-card>
 
-		<div class="text-center d-block mt-n4">
+		<div class="text-center d-block mt-n5">
 			<v-btn
-				style="width: 120px"
-				color="indigo darken-1"
+				style="width: 140px"
+				color="indigo"
 				dark
+				large
+				elevation="5"
 				@click.stop="login"
+				rounded
 			>
 				LOGIN
 			</v-btn>

@@ -1,6 +1,6 @@
 <template>
 	<v-app>
-		<v-main class="purple">
+		<v-main class="indigo">
 			<v-container>
 				<Nuxt />
 				<Snackbar></Snackbar>
