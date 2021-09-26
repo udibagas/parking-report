@@ -4,6 +4,7 @@ use App\Http\Controllers\{
     AuthController,
     CustomerController,
     ReportController,
+    TarifController,
     UserController
 };
 
@@ -31,6 +32,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('report', [ReportController::class, 'index']);
     Route::post('report', [ReportController::class, 'store']);
 
-    Route::apiResource('user', UserController::class, ['except' => ['show']]);
-    Route::apiResource('customer', CustomerController::class, ['except' => ['show']]);
+    Route::apiResources([
+        'user' => UserController::class,
+        'customer' => CustomerController::class,
+        'tarif' => TarifController::class
+    ], ['except' => ['show']]);
 });
