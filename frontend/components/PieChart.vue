@@ -112,5 +112,7 @@ export default {
 <style scoped>
 .chart {
 	height: 300px;
+	min-width: 500px;
+	max-width: 100%;
 }
 </style>
