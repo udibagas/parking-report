@@ -12,9 +12,20 @@ class ReportController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        // TODO: tampilkan report harian, bulanan, keseluruhan, table by bulan, table by hari
+        return Report::selectRaw('
+            `group`,
+            COUNT(jumlah_kendaraan) AS jumlah_kendaraan,
+            SUM(pendapatan) AS pendapatan,
+        ')->when($request->user()->isUserr(), function ($q) {
+            $q->where('customer_id', auth()->user()->customer_id);
+        })->when($request->date, function ($q) use ($request) {
+            $q->where('tanggal', $request->date);
+        })->when($request->month, function ($q) use ($request) {
+            $q->whereMonth('tanggal', $request->month)
+                ->whereYear('year', $request->year);
+        })->groupBy('group');
     }
 
     /**
@@ -26,7 +37,7 @@ class ReportController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'data' => 'required|json',
+            'data' => 'required|array',
             'customer_id' => 'required|exists:customers,id'
         ]);
 
