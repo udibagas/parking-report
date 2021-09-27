@@ -9,6 +9,15 @@ class Report extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'tanggal',
+        'customer_id',
+        'jenis_kendaraan',
+        'group',
+        'jumlah_kendaraan',
+        'pendapatan'
+    ];
+
     public function customer()
     {
         return $this->belongsTo(Customer::class);
