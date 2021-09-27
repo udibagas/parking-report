@@ -25,7 +25,25 @@ class ReportController extends Controller
         })->when($request->month, function ($q) use ($request) {
             $q->whereMonth('tanggal', $request->month)
                 ->whereYear('year', $request->year);
-        })->groupBy('group')->get();
+        })->groupBy('group')->get()->map(function ($item) use ($request) {
+            $item->detail = Report::selectRaw('
+                SUM(jumlah_kendaraan) AS jumlah_kendaraan,
+                SUM(pendapatan) AS pendapatan,
+                jenis_kendaraan
+            ')
+                ->where('group', $item->group)
+                ->when($request->user()->isUser(), function ($q) {
+                    $q->where('customer_id', auth()->user()->customer_id);
+                })->when($request->date, function ($q) use ($request) {
+                    $q->where('tanggal', $request->date);
+                })->when($request->month, function ($q) use ($request) {
+                    $q->whereMonth('tanggal', $request->month)
+                        ->whereYear('year', $request->year);
+                })
+                ->groupBy('jenis_kendaraan')->get();
+
+            return $item;
+        });
     }
 
     /**
