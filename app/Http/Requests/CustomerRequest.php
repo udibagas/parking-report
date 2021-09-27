@@ -25,6 +25,7 @@ class CustomerRequest extends FormRequest
     {
         return [
             'nama' => 'required|max:255',
+            'alamat' => 'required|max:255',
         ];
     }
 
@@ -32,7 +33,9 @@ class CustomerRequest extends FormRequest
     {
         return [
             'nama.required' => "Nama harus diisi",
-            'nama.max' => 'Maksimal 255 karakter'
+            'nama.max' => 'Maksimal 255 karakter',
+            'alamat.required' => "Alamat harus diisi",
+            'alamat.max' => 'Maksimal 255 karakter',
         ];
     }
 }
