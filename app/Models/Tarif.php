@@ -34,6 +34,7 @@ class Tarif extends Model
         'tarif_maksimum',
         'tarif_menginap',
         'mode_menginap',
+        'last_sync'
     ];
 
     public function customer()
