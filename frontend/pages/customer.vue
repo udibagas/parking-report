@@ -64,14 +64,6 @@
 						<v-text-field
 							outlined
 							dense
-							v-model="form.id"
-							label="ID"
-							v-if="form.id"
-						></v-text-field>
-
-						<v-text-field
-							outlined
-							dense
 							v-model="form.nama"
 							:rules="rules.nama"
 							label="Nama"
@@ -80,10 +72,22 @@
 						<v-textarea
 							outlined
 							dense
-							rows="3"
+							rows="2"
+							auto-grow
 							v-model="form.alamat"
 							:rules="rules.alamat"
 							label="Alamat"
+						></v-textarea>
+
+						<v-textarea
+							outlined
+							dense
+							v-model="form.id"
+							label="ID"
+							v-if="form.id"
+							rows="2"
+							auto-grow
+							readonly
 						></v-textarea>
 
 						<v-switch
