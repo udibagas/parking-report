@@ -26,7 +26,7 @@ use([
 ])
 
 export default {
-	props: ['title', 'subtext', 'label', 'url', 'date', 'group'],
+	props: ['title', 'subtext', 'label', 'data'],
 
 	components: { VChart },
 
@@ -36,11 +36,10 @@ export default {
 
 	data() {
 		return {
-			data: [
-				{ name: 'a', value: 2 },
-				{ name: 'b', value: 3 },
-			],
-			// data: [],
+			// data: [
+			// 	{ name: 'a', value: 2 },
+			// 	{ name: 'b', value: 3 },
+			// ],
 			chartOption: {
 				title: {
 					show: true,
@@ -56,8 +55,8 @@ export default {
 					orient: 'vertical',
 					top: 'bottom',
 					left: 'left',
-					data: ['a', 'b'],
-					// data: [],
+					// data: ['a', 'b'],
+					data: this.data.map((d) => d.name),
 					formatter: (n) => {
 						const { name, value } = this.data.find((d) => d.name == n)
 						return `${name}: ${this.$decimal(value)}`
@@ -69,11 +68,11 @@ export default {
 						type: 'pie',
 						radius: '50%',
 						center: ['50%', '50%'],
-						// data: [],
-						data: [
-							{ name: 'a', value: 2 },
-							{ name: 'b', value: 3 },
-						],
+						data: this.data,
+						// data: [
+						// 	{ name: 'a', value: 2 },
+						// 	{ name: 'b', value: 3 },
+						// ],
 						emphasis: {
 							itemStyle: {
 								shadowBlur: 10,
@@ -86,27 +85,6 @@ export default {
 			},
 		}
 	},
-
-	methods: {
-		getData() {
-			const params = { date: this.date, group: this.group }
-			this.$axios.$get(this.url, { params }).then((res) => {
-				this.data = res
-				this.chartOption.legend.data = res.map((d) => d.name)
-				this.chartOption.series[0].data = res
-			})
-		},
-	},
-
-	created() {
-		// this.getData()
-	},
-
-	// watch: {
-	// 	date(v) {
-	// 		this.getData()
-	// 	},
-	// },
 }
 </script>
 

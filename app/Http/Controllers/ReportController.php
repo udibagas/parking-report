@@ -24,7 +24,7 @@ class ReportController extends Controller
             $q->where('tanggal', $request->date);
         })->when($request->month, function ($q) use ($request) {
             $q->whereMonth('tanggal', $request->month)
-                ->whereYear('year', $request->year);
+                ->whereYear('tanggal', $request->year);
         })->groupBy('group')->get()->map(function ($item) use ($request) {
             $item->detail = Report::selectRaw('
                 SUM(jumlah_kendaraan) AS jumlah_kendaraan,
@@ -38,7 +38,7 @@ class ReportController extends Controller
                     $q->where('tanggal', $request->date);
                 })->when($request->month, function ($q) use ($request) {
                     $q->whereMonth('tanggal', $request->month)
-                        ->whereYear('year', $request->year);
+                        ->whereYear('tanggal', $request->year);
                 })
                 ->groupBy('jenis_kendaraan')->get();
 
