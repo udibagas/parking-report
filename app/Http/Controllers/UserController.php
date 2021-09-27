@@ -35,8 +35,8 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        User::create($request->all());
-        return ['message' => 'Data telah disimpan'];
+        $data = User::create($request->all());
+        return ['message' => 'Data telah disimpan', 'data' => $data];
     }
 
     /**
@@ -60,7 +60,23 @@ class UserController extends Controller
     public function update(UserRequest $request, User $user)
     {
         $user->update($request->all());
-        return ['message' => 'Data telah disimpan'];
+
+        if ($request->customer) {
+
+            $request->validate([
+                'customer.nama' => 'required|max:255',
+                'customer.alamat' => 'required|max:255',
+            ], [
+                'customer.nama.required' => "Nama harus diisi",
+                'customer.nama.max' => 'Maksimal 255 karakter',
+                'customer.alamat.required' => "Alamat harus diisi",
+                'customer.alamat.max' => 'Maksimal 255 karakter',
+            ]);
+
+            $user->customer->update($request->customer);
+        }
+
+        return ['message' => 'Data telah disimpan', 'data' => $user->load('customer')];
     }
 
     /**

@@ -13,6 +13,7 @@
 						outlined
 						dense
 						v-model="form.name"
+						:rules="rules.name"
 						label="Nama"
 					></v-text-field>
 
@@ -20,6 +21,7 @@
 						outlined
 						dense
 						v-model="form.email"
+						:rules="rules.email"
 						label="Email"
 					></v-text-field>
 
@@ -27,6 +29,7 @@
 						outlined
 						dense
 						v-model="form.password"
+						:rules="rules.password"
 						type="password"
 						label="Password"
 					></v-text-field>
@@ -49,6 +52,8 @@
 						outlined
 						dense
 						v-model="form.customer.nama"
+						:rules="rules['customer.nama']"
+						required
 						label="Nama Pelanggan"
 					></v-text-field>
 
@@ -57,9 +62,11 @@
 						outlined
 						dense
 						v-model="form.customer.alamat"
+						:rules="rules['customer.alamat']"
 						label="Alamat"
 						rows="2"
 						auto-grow
+						required
 					></v-textarea>
 
 					<v-textarea
@@ -100,20 +107,22 @@ export default {
 				.$put(`/api/user/${this.form.id}`, this.form)
 				.then((r) => {
 					this.$notifier.showMessage({
-						content: r.data.message,
+						content: r.message,
 						color: 'success',
 					})
+					this.$refs.form.resetValidation()
+					this.$auth.setUser(r.data)
 				})
 				.catch((e) => {
 					if (e.response.status == 422) {
 						this.rules = e.response.data.errors
 						this.$refs.form.validate()
-					} else {
-						this.$notifier.showMessage({
-							content: e.response.data.message,
-							color: 'error',
-						})
 					}
+
+					this.$notifier.showMessage({
+						content: e.response.data.message,
+						color: 'error',
+					})
 				})
 				.finally(() => (this.loading = false))
 		},
