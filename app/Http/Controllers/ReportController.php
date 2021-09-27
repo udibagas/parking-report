@@ -16,16 +16,16 @@ class ReportController extends Controller
     {
         return Report::selectRaw('
             `group`,
-            COUNT(jumlah_kendaraan) AS jumlah_kendaraan,
-            SUM(pendapatan) AS pendapatan,
-        ')->when($request->user()->isUserr(), function ($q) {
+            SUM(jumlah_kendaraan) AS jumlah_kendaraan,
+            SUM(pendapatan) AS pendapatan
+        ')->when($request->user()->isUser(), function ($q) {
             $q->where('customer_id', auth()->user()->customer_id);
         })->when($request->date, function ($q) use ($request) {
             $q->where('tanggal', $request->date);
         })->when($request->month, function ($q) use ($request) {
             $q->whereMonth('tanggal', $request->month)
                 ->whereYear('year', $request->year);
-        })->groupBy('group');
+        })->groupBy('group')->get();
     }
 
     /**
