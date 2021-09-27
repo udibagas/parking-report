@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Report;
+use App\Models\Tarif;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
@@ -76,6 +77,10 @@ class ReportController extends Controller
             );
         }
 
-        return 'Data telah disimpan';
+        // sekalian return tarif yg baru untuk update di sisi client
+        return [
+            'message' => 'Data telah disimpan',
+            'tarif' => Tarif::where('customer_id', $request->customer_id)->get()
+        ];
     }
 }
