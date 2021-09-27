@@ -46,8 +46,8 @@ class AuthController extends Controller
         return response('', 204);
     }
 
-    public function me()
+    public function me(Request $request)
     {
-        return ['user' => auth()->user()];
+        return ['user' => $request->user()->load(['customer'])];
     }
 }
