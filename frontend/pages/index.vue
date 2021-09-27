@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div style="max-width: 500px; margin: 0 auto">
 		<Summary
 			v-for="i in ['Hari Ini', 'Bulan Ini', 'Total']"
 			:key="i"
