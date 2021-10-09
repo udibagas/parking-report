@@ -58,7 +58,7 @@ class ReportController extends Controller
             })
             ->where('tanggal', date('Y-m-d'))
             ->groupBy('group')->get()->map(function ($item) use ($request) {
-                $item->detail = Report::selectRaw('SUM(jumlah) AS jumlah, jenis_kendaraan')
+                $item->detail = Terparkir::selectRaw('SUM(jumlah) AS jumlah, jenis_kendaraan')
                     ->where('group', $item->group)
                     ->when($request->user()->isUser(), function ($q) {
                         $q->where('customer_id', auth()->user()->customer_id);
