@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
 use App\Models\Report;
 use App\Models\Tarif;
 use App\Models\Terparkir;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
@@ -46,6 +48,25 @@ class ReportController extends Controller
 
             return $item;
         });
+    }
+
+    public function terparkir(Request $request)
+    {
+        return Terparkir::selectRaw(' `group`, SUM(jumlah) AS jumlah ')
+            ->when($request->user()->isUser(), function ($q) {
+                $q->where('customer_id', auth()->user()->customer_id);
+            })
+            ->where('tanggal', date('Y-m-d'))
+            ->groupBy('group')->get()->map(function ($item) use ($request) {
+                $item->detail = Report::selectRaw('SUM(jumlah) AS jumlah, jenis_kendaraan')
+                    ->where('group', $item->group)
+                    ->when($request->user()->isUser(), function ($q) {
+                        $q->where('customer_id', auth()->user()->customer_id);
+                    })->where('tanggal', date('Y-m-d'))
+                    ->groupBy('jenis_kendaraan')->get();
+
+                return $item;
+            });
     }
 
     /**
@@ -114,6 +135,14 @@ class ReportController extends Controller
         return [
             'message' => 'Data telah disimpan',
             'tarif' => Tarif::where('customer_id', $request->customer_id)->get()
+        ];
+    }
+
+    public function summary()
+    {
+        return [
+            'customer' => Customer::count(),
+            'user' => User::where('role', 0)->count()
         ];
     }
 }

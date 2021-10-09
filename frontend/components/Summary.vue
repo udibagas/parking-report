@@ -4,7 +4,7 @@
 			<div class="d-flex">
 				<div class="flex-grow-1">
 					<div>{{ title }}</div>
-					<div class="text-h4 indigo--text">
+					<div class="text-h4 indigo--text my-2">
 						Rp. {{ $decimal(totalPendapatan) }}
 					</div>
 					<div>

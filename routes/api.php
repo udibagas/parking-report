@@ -28,6 +28,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('me', [AuthController::class, 'me']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::get('report', [ReportController::class, 'index']);
+    Route::get('terparkir', [ReportController::class, 'terparkir']);
+    Route::get('summary', [ReportController::class, 'summary']);
 
     Route::apiResources([
         'user' => UserController::class,
