@@ -19,6 +19,7 @@ class CreateTerparkirsTable extends Migration
             $table->date('tanggal');
             $table->string('jenis_kendaraan');
             $table->string('group');
+            $table->integer('jumlah');
             $table->timestamps();
         });
     }
