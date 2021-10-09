@@ -45,7 +45,9 @@ class Tarif extends Model
     public static function booted()
     {
         static::creating(function ($model) {
-            $model->customer_id = auth()->user()->customer_id;
+            if (auth()->check()) {
+                $model->customer_id = auth()->user()->customer_id;
+            }
         });
     }
 }

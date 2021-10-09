@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Report;
 use App\Models\Tarif;
+use App\Models\Terparkir;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
@@ -56,7 +57,9 @@ class ReportController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'data' => 'required|array',
+            'data' => 'sometimes|array',
+            'terparkir' => 'sometimes|array',
+            'tarif' => 'sometimes|array',
             'customer_id' => 'required|exists:customers,id'
         ]);
 
@@ -77,7 +80,37 @@ class ReportController extends Controller
             );
         }
 
+        foreach ($request->terparkir as $data) {
+            Terparkir::updateOrCreate(
+                [
+                    'tanggal' => $data['tanggal'],
+                    'jenis_kendaraan' => $data['jenis_kendaraan'],
+                    'group' => $data['group'],
+                    'customer_id' => $request->customer_id
+                ],
+                array_merge($data, ['customer_id' => $request->customer_id])
+            );
+        }
+
         // sekalian return tarif yg baru untuk update di sisi client
+        foreach ($request->tarif as $tarif) {
+            // create data baru jka blm ada
+            $tarifCloud = Tarif::firstOrCreate(
+                [
+                    'nama' => $tarif['nama'],
+                    'group' => $tarif['group'],
+                    'customer_id' => $request->customer_id
+                ],
+                array_merge($tarif, ['customer_id' => $request->customer_id])
+            );
+
+            // kalau updated_at data yg dikirim lebih besar dari last_sync berarti sudah diupdate dari server lokal
+            // maka update yg di cloud
+            if (strtotime($tarif['updated_at']) > strtotime($tarifCloud->last_sync)) {
+                $tarifCloud->update($tarif);
+            }
+        }
+
         return [
             'message' => 'Data telah disimpan',
             'tarif' => Tarif::where('customer_id', $request->customer_id)->get()
