@@ -107,7 +107,7 @@ class ReportController extends Controller
             // kalau updated_at data yg dikirim lebih besar dari last_sync berarti sudah diupdate dari server lokal
             // maka update yg di cloud
             if (strtotime($tarif['updated_at']) > strtotime($tarifCloud->last_sync)) {
-                $tarifCloud->update($tarif);
+                $tarifCloud->update(array_merge($tarif, ['last_sync' => now()]));
             }
         }
 
