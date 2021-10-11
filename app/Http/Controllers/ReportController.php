@@ -111,7 +111,7 @@ class ReportController extends Controller
                     'group' => $group,
                     'customer_id' => $request->customer_id
                 ],
-                array_merge($data, ['customer_id' => $request->customer_id])
+                array_merge($data, ['customer_id' => $request->customer_id, 'group' => $group])
             );
         }
 
