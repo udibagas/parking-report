@@ -103,15 +103,20 @@ class ReportController extends Controller
 
         foreach ($request->terparkir as $data) {
             $group = $data['group'] ?: 'SEMUA';
+            $tanggal = date('Y-m-d');
 
             Terparkir::updateOrCreate(
                 [
-                    'tanggal' => $data['tanggal'],
+                    'tanggal' => $tanggal,
                     'jenis_kendaraan' => $data['jenis_kendaraan'],
                     'group' => $group,
                     'customer_id' => $request->customer_id
                 ],
-                array_merge($data, ['customer_id' => $request->customer_id, 'group' => $group])
+                array_merge($data, [
+                    'customer_id' => $request->customer_id,
+                    'group' => $group,
+                    'tanggal' => $tanggal
+                ])
             );
         }
 
