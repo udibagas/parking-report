@@ -29,8 +29,8 @@
 		</v-card>
 
 		<v-card flat class="mb-2" v-if="$auth.user.role == 0">
-			<v-card-text class="d-flex">
-				<div class="flex-grow-1">
+			<v-card-text>
+				<div>
 					<div>
 						<v-icon left small>mdi-car-multiple</v-icon>
 						Terparkir
