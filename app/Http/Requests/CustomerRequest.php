@@ -26,6 +26,7 @@ class CustomerRequest extends FormRequest
         return [
             'nama' => 'required|max:255',
             'alamat' => 'required|max:255',
+            'masa_aktif' => 'date'
         ];
     }
 
@@ -36,6 +37,7 @@ class CustomerRequest extends FormRequest
             'nama.max' => 'Maksimal 255 karakter',
             'alamat.required' => "Alamat harus diisi",
             'alamat.max' => 'Maksimal 255 karakter',
+            'masa.aktif' => 'Tanggal tidak valid'
         ];
     }
 }

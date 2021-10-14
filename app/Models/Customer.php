@@ -11,7 +11,9 @@ class Customer extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['nama', 'alamat', 'active'];
+    protected $fillable = ['nama', 'alamat', 'active', 'masa_aktif'];
+
+    protected $appends = ['expired', 'last_update'];
 
     /**
      * Get the value indicating whether the IDs are incrementing.
@@ -38,5 +40,24 @@ class Customer extends Model
         static::creating(function ($model) {
             $model->id = Str::uuid()->toString();
         });
+    }
+
+    public function reports()
+    {
+        return $this->hasMany(Report::class);
+    }
+
+    public function getExpiredAttribute()
+    {
+        if (!$this->masa_aktif) {
+            return false;
+        }
+
+        return strtotime($this->masa_aktif) < strtotime(date('Y-m-d'));
+    }
+
+    public function getLastUpdateAttribute()
+    {
+        return $this->reports ? $this->reports()->latest()->first()->updated_at : null;
     }
 }
