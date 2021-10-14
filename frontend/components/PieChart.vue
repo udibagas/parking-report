@@ -90,6 +90,6 @@ export default {
 
 <style scoped>
 .chart {
-	height: 300px;
+	height: 500px;
 }
 </style>

@@ -101,7 +101,7 @@
 							label="Alamat"
 						></v-textarea>
 
-						<v-menu transition="scale-transition" offset-y min-width="auto">
+						<v-menu transition="scale-transition" min-width="auto">
 							<template v-slot:activator="{ on, attrs }">
 								<v-text-field
 									v-on="on"

@@ -1,5 +1,33 @@
 <template>
 	<div style="max-width: 500px; margin: 0 auto">
+		<v-card flat class="mb-3" v-if="$auth.user.role == 0">
+			<v-card-text class="d-flex">
+				<div>
+					Update Terakhir <br />
+					<div class="font-weight-bold indigo--text">
+						{{
+							$auth.user.customer.last_update
+								? $moment($auth.user.customer.last_update).format(
+										'DD/MMM/YYYY HH:mm'
+								  )
+								: '-'
+						}}
+					</div>
+				</div>
+				<v-spacer></v-spacer>
+				<div>
+					Masa Aktif <br />
+					<div class="font-weight-bold indigo--text">
+						{{
+							$auth.user.customer.masa_aktif
+								? $moment($auth.user.customer.masa_aktif).format('DD/MMM/YYYY')
+								: '-'
+						}}
+					</div>
+				</div>
+			</v-card-text>
+		</v-card>
+
 		<v-card flat class="mb-2" v-if="$auth.user.role == 0">
 			<v-card-text class="d-flex">
 				<div class="flex-grow-1">
@@ -13,30 +41,6 @@
 					</div>
 				</div>
 
-				<div class="ml-3">
-					Update Terakhir <br />
-					<div class="font-weight-medium purple--text mb-4">
-						{{
-							$auth.user.customer.last_update
-								? $moment($auth.user.customer.last_update).format(
-										'DD/MMM/YYYY HH:mm'
-								  )
-								: '-'
-						}}
-					</div>
-
-					Masa Aktif <br />
-					<div class="font-weight-medium purple--text mb-4">
-						{{
-							$auth.user.customer.masa_aktif
-								? $moment($auth.user.customer.masa_aktif).format('DD/MMM/YYYY')
-								: '-'
-						}}
-					</div>
-				</div>
-			</v-card-text>
-
-			<v-card-text>
 				<v-row>
 					<v-col cols="6" v-for="item in terparkir" :key="item.group">
 						<div class="d-flex purple--text">
