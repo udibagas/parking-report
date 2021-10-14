@@ -13,7 +13,7 @@ class Customer extends Model
 
     protected $fillable = ['nama', 'alamat', 'active', 'masa_aktif'];
 
-    protected $appends = ['expired', 'last_update'];
+    protected $appends = ['expired', 'last_update', 'status'];
 
     /**
      * Get the value indicating whether the IDs are incrementing.
@@ -59,5 +59,14 @@ class Customer extends Model
     public function getLastUpdateAttribute()
     {
         return $this->reports ? $this->reports()->latest()->first()->updated_at : null;
+    }
+
+    public function getStatusAttribute()
+    {
+        if ($this->expired) {
+            return 'expired';
+        }
+
+        return $this->active ? 'aktif' : 'nonaktif';
     }
 }
