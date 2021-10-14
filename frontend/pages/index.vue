@@ -15,12 +15,21 @@
 
 				<div class="ml-3">
 					Update Terakhir <br />
-					<div class="font-weight-medium purple--text">
+					<div class="font-weight-medium purple--text mb-4">
 						{{
 							$auth.user.customer.last_update
 								? $moment($auth.user.customer.last_update).format(
 										'DD/MMM/YYYY HH:mm'
 								  )
+								: '-'
+						}}
+					</div>
+
+					Masa Aktif <br />
+					<div class="font-weight-medium purple--text mb-4">
+						{{
+							$auth.user.customer.masa_aktif
+								? $moment($auth.user.customer.masa_aktif).format('DD/MMM/YYYY')
 								: '-'
 						}}
 					</div>
@@ -124,6 +133,12 @@ export default {
 			summary: {
 				customer: 0,
 				user: 0,
+			},
+
+			colors: {
+				aktif: 'green',
+				nonaktif: 'red',
+				expired: 'grey',
 			},
 		}
 	},
