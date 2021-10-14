@@ -69,6 +69,19 @@
 						required
 					></v-textarea>
 
+					<v-text-field
+						label="Masa aktif"
+						placeholder="Masa aktif"
+						readonly
+						dense
+						outlined
+						:value="
+							form.customer.masa_aktif
+								? $moment(form.customer.masa_aktif).format('DD/MMM/YYYY')
+								: ''
+						"
+					></v-text-field>
+
 					<v-textarea
 						v-if="form.customer"
 						readonly

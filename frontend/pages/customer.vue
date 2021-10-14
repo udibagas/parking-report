@@ -14,13 +14,35 @@
 				showForm = true
 			"
 		>
-			<v-list-item-avatar :color="customer.active ? 'green' : 'red'">
+			<v-list-item-avatar
+				:color="customer.active ? 'green' : 'red'"
+				class="d-none d-sm-flex"
+			>
 				<v-icon dark>mdi-badge-account-horizontal-outline</v-icon>
 			</v-list-item-avatar>
 			<v-list-item-content>
 				<v-list-item-title v-text="customer.nama"></v-list-item-title>
-				<v-list-item-subtitle v-text="customer.alamat"></v-list-item-subtitle>
+				<v-list-item-subtitle>
+					Masa Aktif:
+					{{
+						customer.masa_aktif
+							? $moment(customer.masa_aktif).format('DD/MMM/YY')
+							: '-'
+					}}
+					<br />
+					Update Terakhir:
+					{{
+						customer.last_update
+							? $moment(customer.last_update).format('DD/MMM/YY HH:mm')
+							: '-'
+					}}
+				</v-list-item-subtitle>
 			</v-list-item-content>
+
+			<v-chip :color="colors[customer.status]" dark small>{{
+				customer.status.toUpperCase()
+			}}</v-chip>
+
 			<v-list-item-action>
 				<v-btn icon @click.stop="confirmDelete(customer)" small>
 					<v-icon color="grey">mdi-delete</v-icon>
@@ -49,7 +71,7 @@
 			<v-icon>mdi-plus</v-icon>
 		</v-btn>
 
-		<v-dialog v-model="showForm">
+		<v-dialog v-model="showForm" max-width="400">
 			<v-card>
 				<v-card-title class="mb-4">
 					{{ form.id ? 'Edit' : 'Tambah' }} Pelanggan
@@ -78,6 +100,29 @@
 							:rules="rules.alamat"
 							label="Alamat"
 						></v-textarea>
+
+						<v-menu transition="scale-transition" offset-y min-width="auto">
+							<template v-slot:activator="{ on, attrs }">
+								<v-text-field
+									v-on="on"
+									v-bind="attrs"
+									label="Masa aktif"
+									placeholder="Masa aktif"
+									readonly
+									dense
+									outlined
+									:value="
+										form.masa_aktif
+											? $moment(form.masa_aktif).format('DD/MMM/YYYY')
+											: ''
+									"
+									:rules="rules.masa_aktif"
+								></v-text-field>
+							</template>
+
+							<v-date-picker v-model="form.masa_aktif" no-title>
+							</v-date-picker>
+						</v-menu>
 
 						<v-textarea
 							outlined
@@ -117,6 +162,11 @@ export default {
 		return {
 			url: '/api/customer',
 			paginated: '',
+			colors: {
+				aktif: 'green',
+				nonaktif: 'red',
+				expired: 'grey',
+			},
 		}
 	},
 

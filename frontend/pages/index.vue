@@ -1,16 +1,33 @@
 <template>
 	<div style="max-width: 500px; margin: 0 auto">
 		<v-card flat class="mb-2" v-if="$auth.user.role == 0">
+			<v-card-text class="d-flex">
+				<div class="flex-grow-1">
+					<div>
+						<v-icon left small>mdi-car-multiple</v-icon>
+						Terparkir
+					</div>
+
+					<div class="text-h4 my-2 indigo--text">
+						{{ terparkir.reduce((t, c) => t + Number(c.jumlah), 0) }}
+					</div>
+				</div>
+
+				<div class="ml-3">
+					Update Terakhir <br />
+					<div class="font-weight-medium purple--text">
+						{{
+							$auth.user.customer.last_update
+								? $moment($auth.user.customer.last_update).format(
+										'DD/MMM/YYYY HH:mm'
+								  )
+								: '-'
+						}}
+					</div>
+				</div>
+			</v-card-text>
+
 			<v-card-text>
-				<div>
-					<v-icon left small>mdi-car-multiple</v-icon>
-					Kendaraan Terparkir
-				</div>
-
-				<div class="text-h4 my-2 indigo--text">
-					{{ terparkir.reduce((t, c) => t + Number(c.jumlah), 0) }}
-				</div>
-
 				<v-row>
 					<v-col cols="6" v-for="item in terparkir" :key="item.group">
 						<div class="d-flex purple--text">
@@ -44,7 +61,7 @@
 			/>
 		</div>
 
-		<v-card v-if="$auth.user.role == 1">
+		<v-card v-if="$auth.user.role == 1" flat>
 			<v-card-text>
 				<div class="indigo--text text-h6 mb-6 text-center">
 					Selamat Datang {{ $auth.user.name }}!
@@ -66,6 +83,8 @@
 				</v-row>
 			</v-card-text>
 		</v-card>
+
+		<CustomerList class="my-3" v-if="$auth.user.role == 1" />
 	</div>
 </template>
 
