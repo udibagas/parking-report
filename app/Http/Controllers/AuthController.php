@@ -24,8 +24,14 @@ class AuthController extends Controller
             return response(['message' => 'User tidak aktif. Silakan hubungi Admin.'], 401);
         }
 
-        if ($user->customer && !$user->customer->active) {
-            return response(['message' => 'Pelanggan tidak aktif. Silakan hubungi Admin.'], 401);
+        if ($user->customer) {
+            if (!$user->customer->active) {
+                return response(['message' => 'Pelanggan tidak aktif. Silakan hubungi Admin.'], 401);
+            }
+
+            if ($user->customer->expired) {
+                return response(['message' => 'Masa aktif pelanggan sudah habis. Silakan hubungi Admin.'], 401);
+            }
         }
 
         if (password_verify($request->password, $user->password)) {
