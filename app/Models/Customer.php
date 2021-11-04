@@ -58,7 +58,7 @@ class Customer extends Model
 
     public function getLastUpdateAttribute()
     {
-        return $this->reports ? $this->reports()->latest()->first()->updated_at : null;
+        return $this->reports()->count() ? $this->reports()->latest()->first()->updated_at : null;
     }
 
     public function getStatusAttribute()
